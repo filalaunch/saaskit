@@ -1,0 +1,8 @@
+:root {
+  --fl-color-primary: #3b2de0;
+  --fl-color-secondary: #0c2102;
+  --fl-color-accent: #ffffff;
+  --fl-font-heading: 'Poppins', sans-serif;
+  --fl-font-body: 'Inter', sans-serif;
+  --fl-radius: 0.5rem;
+}

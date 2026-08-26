@@ -1,0 +1,11 @@
+:root {
+  --fl-color-primary: #E1672E;
+  --fl-color-secondary: #172242;
+  --fl-color-accent: #E1672E;
+  --fl-font-heading: 'Inter', sans-serif;
+  --fl-font-body: 'Inter', sans-serif;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+}

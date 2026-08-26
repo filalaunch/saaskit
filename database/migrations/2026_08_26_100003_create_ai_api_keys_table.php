@@ -1,0 +1,26 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('ai_api_keys', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('ai_provider_id')->constrained('ai_providers')->cascadeOnDelete();
+            $table->string('label')->nullable();
+            $table->text('encrypted_key'); // encrypted at the model layer via Laravel's 'encrypted' cast
+            $table->boolean('is_active')->default(true);
+            $table->boolean('is_default')->default(false);
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('ai_api_keys');
+    }
+};
