@@ -29,20 +29,23 @@ Nobody ships that as a clean, drop-in module — so we built one.
 
 | Feature | Status |
 |---|---|
-| **AI Usage & BYOK Manager** — multi-provider AI gateway (OpenAI, Anthropic, Google, OpenRouter), per-request usage logging, BYOK key management for end customers, provider-agnostic `AIProviderDriver` contract | 🚧 In progress |
-| **White-Label Branding (Preset Mode)** — no-code theme editor: logo, colors, font-pair, app name, all editable from the Filament admin panel, zero custom CSS required | 🗺️ Planned |
+| **AI Usage & BYOK Manager** — multi-provider AI gateway (OpenAI, Anthropic, Google, OpenRouter), per-request usage logging, BYOK key management, provider-agnostic `AIProviderDriver` contract so adding a 5th provider is one new class | ✅ Available |
+| **White-Label Branding (Preset Mode)** — no-code theme editor: logo, colors, 10 curated font pairs, corner-radius style, light/dark/system default — all editable from the admin panel, zero custom CSS required, with a one-click "Reset to defaults" | ✅ Available |
 
 Foundation already in place: Laravel 12, FilamentPHP 4 admin panel, role/permission management via `spatie/laravel-permission` + `bezhansalleh/filament-shield`, typed settings via `spatie/laravel-settings`, and file/logo uploads via `spatie/laravel-medialibrary`.
+
+**Coming next:** a customer-facing portal (a second Filament panel) so end customers can self-manage their own BYOK keys and view their own usage, plus proper admin-driven user/role management for teams of more than one admin.
 
 ## Tech stack
 
 - **Laravel 12** / **PHP 8.3+**
 - **FilamentPHP 4** (admin panel)
-- **MySQL 8**
+- **MySQL 8** (or SQLite, works fine for local dev/testing)
 - `spatie/laravel-permission` + `bezhansalleh/filament-shield` — dynamic roles & permissions
-- `spatie/laravel-settings` — typed application settings (AI provider config, brand settings)
+- `spatie/laravel-settings` — typed application settings (brand settings, more to come)
 - `spatie/laravel-medialibrary` — logo/asset uploads
 - `spatie/laravel-activitylog` — audit trail for key/branding changes
+- `guzzlehttp/guzzle` — talks directly to each AI provider's REST API (no vendor SDKs), which is what keeps the gateway provider-agnostic
 
 ### Requirements
 
@@ -65,18 +68,22 @@ Set your database credentials in `.env`, then:
 
 ```bash
 php artisan migrate
-php artisan make:filament-user
+php artisan db:seed
+php artisan storage:link
+php artisan shield:generate --all
 ```
 
-Visit `/admin` and log in with the user you just created.
+`db:seed` creates a test login (`test@example.com` / `password`) and seeds the AI Usage module with the 4 supported providers plus example models. `storage:link` is required for branding logo/favicon uploads to actually be reachable. `shield:generate --all` wires up roles/permissions for every resource — skip the interactive prompts by confirming the panel is `admin` and answering `no` to "select what to generate."
+
+Visit `/admin`, log in, and you'll find **AI Management** and **Branding** in the sidebar.
 
 ## Roadmap
 
-This repo tracks its own small roadmap (the two features above) independently of the full FilaLaunch kit. Watch/star this repo for updates, or head to **[filalaunch.com](https://filalaunch.com)** to get notified when the complete kit — billing, content, support, invoicing, and 18 other modules — ships.
+This repo tracks its own small roadmap independently of the full FilaLaunch kit — right now that means a customer-facing portal and multi-admin user/role management. Watch/star this repo for updates, or head to **[filalaunch.com](https://filalaunch.com)** to get notified when the complete kit — billing, content, support, invoicing, and 18 other modules — ships.
 
 ## Contributing
 
-Issues and PRs welcome. If you're extending the `AIProviderDriver` contract to support another provider, keep the interface shape consistent with the existing drivers so it stays a drop-in swap for anyone using this.
+Issues and PRs welcome. If you're extending the `AIProviderDriver` contract to support another provider, keep the interface shape consistent with the existing drivers so it stays a drop-in swap for anyone using this. See [CONTRIBUTING.md](./CONTRIBUTING.md) for the full process.
 
 ## License
 
