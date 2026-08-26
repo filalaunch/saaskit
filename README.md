@@ -44,6 +44,13 @@ Foundation already in place: Laravel 12, FilamentPHP 4 admin panel, role/permiss
 - `spatie/laravel-medialibrary` — logo/asset uploads
 - `spatie/laravel-activitylog` — audit trail for key/branding changes
 
+### Requirements
+
+- PHP 8.3 or higher
+- Composer 2.x
+- MySQL 8 (or SQLite for local testing)
+- Laravel 12
+
 ## Installation
 
 ```bash
